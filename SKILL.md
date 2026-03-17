@@ -13,7 +13,7 @@ description: >
 
 # ASCII Wireframe — Sketch First, Build Second
 
-> Created by [Vitalik Pestov](https://www.linkedin.com/in/vitalipestov) — based on the ASCII wireframing methodology for AI-assisted development.
+> Created by [Vitalik Pestov](https://www.linkedin.com/in/vitalik-bd-in-web3/) — based on the ASCII wireframing methodology for AI-assisted development.
 
 When a user describes an interface, schema, workflow, or presentation in words, you fill in the gaps yourself — guessing proportions, element placement, hierarchy, and missing details. The result looks polished but doesn't match what the user actually had in mind.
 
