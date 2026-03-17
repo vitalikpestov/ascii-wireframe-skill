@@ -39,11 +39,19 @@ The wireframe must make every layout decision explicit:
 - Specific data examples where relevant (sample values, column names, row content)
 
 **Prompt pattern:**
-\`\`\`
-Before writing any code, create an ASCII wireframe of [thing].
-Use box-drawing characters and arrows for flow.
-Do not write any code. Output only the ASCII.
-\`\`\`
+```
+Before writing any code, generate a DETAILED ASCII wireframe of [thing].
+
+REQUIREMENTS:
+- Use box-drawing characters for structure
+- Include EVERY major element and component
+- Show relative sizes and proportions (e.g., sidebar 20%, main 80%)
+- Add LABELS under each element
+- Use ARROWS to show relationships and flow
+- Indicate spacing with whitespace or dashed lines (-----)
+
+OUTPUT: ASCII wireframe ONLY — no code, no explanations
+```
 
 ### Step 2 — Iterate on the Sketch, Not on Code
 
@@ -56,9 +64,20 @@ Typical iteration requests:
 - Restructuring flow ("both branches should end with Log to DB")
 
 **Prompt pattern:**
-\`\`\`
-[1-2 specific changes]. Redraw. Nothing else changes.
-\`\`\`
+```
+Update the wireframe with these SPECIFIC changes only:
+
+CHANGE 1: [description]
+CHANGE 2: [description]
+
+RULES:
+- Apply ONLY these changes — everything else remains identical
+- Redraw the ENTIRE wireframe
+- Maintain all proportions for unchanged elements
+- Keep all labels in place
+
+OUTPUT: Full wireframe with changes applied
+```
 
 When redrawing, reproduce the FULL wireframe with the changes applied — don't show just the changed parts. The user needs to see the complete picture.
 
@@ -67,11 +86,29 @@ When redrawing, reproduce the FULL wireframe with the changes applied — don't 
 Once the user approves the wireframe, treat it as the exact specification. Build the artifact matching every detail in the wireframe. Do not invent, add, remove, or rearrange anything that isn't in the approved wireframe.
 
 **Prompt pattern:**
-\`\`\`
-Build [the thing] using this wireframe as the exact specification.
-[tech stack + requirements]
-Match the wireframe exactly. Every layout decision is already made.
-\`\`\`
+```
+Build [the thing] using this wireframe as the EXACT specification.
+
+WIREFRAME:
+[paste the approved wireframe]
+
+TECH STACK:
+[your stack]
+
+CRITICAL RULES:
+1. MATCH LAYOUT EXACTLY — Every position, size, proportion
+2. DO NOT INVENT — No colors, buttons, or features not in wireframe
+3. PROPORTIONS MATTER — Sidebar 20%, main 80%, etc.
+4. TEXT FROM WIREFRAME — Use exact labels and annotations
+5. RESPONSIVE — Both desktop and mobile if shown
+6. NO PLACEHOLDER LIBRARIES — Use [your framework] + CSS
+7. ASK IF AMBIGUOUS — Don't guess
+
+OUTPUT:
+- Single-file [type] OR proper structure
+- Ready to run immediately
+- Include mock data exactly as shown
+```
 
 ## Domain-Specific Guidance
 
@@ -79,7 +116,7 @@ The three-step process applies universally, but different artifact types have sp
 
 ### Web Interfaces (Dashboards, Apps, Landing Pages)
 
-Use box-drawing characters to show layout grid. Indicate proportions with explicit percentages or ratios. Show every interactive element with brackets: \`[Button]\`, \`[Search]\`, \`[+ New]\`. Include sample data in tables and cards.
+Use box-drawing characters to show layout grid. Indicate proportions with explicit percentages or ratios. Show every interactive element with brackets: `[Button]`, `[Search]`, `[+ New]`. Include sample data in tables and cards.
 
 Key things to make explicit in the wireframe:
 - Sidebar vs. content area width ratio
@@ -91,7 +128,7 @@ Key things to make explicit in the wireframe:
 - Navigation items and their order
 
 Example wireframe structure for a dashboard:
-\`\`\`
+```
 +----------------------------------------------------------------------+
 | NAVBAR                    [Search]              [Bell] [Avatar]      |
 +------+---------------------------------------------------------------+
@@ -109,7 +146,7 @@ Example wireframe structure for a dashboard:
 |      | | Alice   | Pro  | 2026-02-28 | * Active                |    |
 |      | +--------------------------------------------------------+    |
 +------+---------------------------------------------------------------+
-\`\`\`
+```
 
 ### Presentations (Slide Decks)
 
@@ -122,7 +159,7 @@ Key things to make explicit:
 - Number of columns/items per slide
 
 Example wireframe for a single slide:
-\`\`\`
+```
 SLIDE 6 (Transition — Quote):
 +------------------------------------------+
 |  [dark background]                       |
@@ -131,7 +168,7 @@ SLIDE 6 (Transition — Quote):
 |      a Friday afternoon spreadsheet."    |
 |                                          |
 +------------------------------------------+
-\`\`\`
+```
 
 ### Database Schemas (ER Diagrams)
 
@@ -143,6 +180,38 @@ Key things to make explicit:
 - Column names and types
 - Constraints (PK, FK, unique, not null)
 
+Example:
+```
++------------------+         +------------------+
+| users            |         | products         |
+| id (PK, UUID)    |         | id (PK, UUID)    |
+| email            |         | name, price      |
+| name             |         | stripe_price_id  |
+| plan             |         | active           |
+| stripe_id        |         +------------------+
+| created_at       |
++------------------+
+        |                            |
+        v                            v
++------------------+         +------------------+
+| purchases        |         | subscriptions    |
+| id (PK)          |         | id (PK)          |
+| user_id (FK)     |         | user_id (FK)     |
+| product_id (FK)  |         | product_id (FK)  |
+| amount, currency |         | status           |
+| status           |         | started_at       |
++------------------+         | ends_at          |
+        |                    +------------------+
+        v
++------------------+
+| audit_logs       |
+| id (PK)          |
+| purchase_id (FK) |
+| event_type       |
+| payload (jsonb)  |
++------------------+
+```
+
 ### Automation Workflows (n8n, Zapier, etc.)
 
 Use flowchart notation with arrows showing data flow. The critical thing here is making ALL branches visible — including error paths, "not found" cases, and edge cases that would otherwise be silently omitted.
@@ -152,6 +221,18 @@ Key things to make explicit:
 - Error handling paths
 - Symmetric endings (both branches terminate properly)
 - Node types and integrations (HTTP Request, Slack, Supabase)
+
+Example:
+```
+[WEBHOOK] --> [Parse & Validate]
+    INVALID --> [Send Error Email] --> END
+    VALID   --> [Lookup Contact in CRM]
+        NOT FOUND --> [Create New Contact (HubSpot POST)] --> merge
+        FOUND     --> merge
+    --> [Check Lead Score]
+        < 50  --> [Add to Nurture Sequence] --> [Log to DB] --> END
+        >= 50 --> [Notify Sales Slack] --> [Create CRM Task] --> [Log to DB] --> END
+```
 
 ## Why This Works
 
