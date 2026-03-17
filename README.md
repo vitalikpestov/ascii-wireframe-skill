@@ -1,6 +1,6 @@
 # ASCII Wireframe Skill for Claude
 
-> Created by [Vitalik Pestov](https://www.linkedin.com/in/vitalipestov)
+> Created by [Vitalik Pestov](https://www.linkedin.com/in/vitalik-bd-in-web3/)
 
 A Claude skill that forces a **wireframe-first** workflow: draw the structure in ASCII before writing any code. This eliminates guesswork about layout, proportions, and hierarchy — you approve a visual blueprint, then Claude builds it exactly.
 
@@ -28,7 +28,7 @@ This skill introduces a three-step process: **Sketch → Iterate → Build**.
 
 Ask Claude to build a SaaS dashboard. Instead of jumping to code, it produces:
 
-\`\`\`
+```
 +----------------------------------------------------------------------+
 | NAVBAR                    [Search]              [Bell] [Avatar]      |
 +------+---------------------------------------------------------------+
@@ -46,20 +46,20 @@ Ask Claude to build a SaaS dashboard. Instead of jumping to code, it produces:
 |      | | Alice   | Pro  | 2026-02-28 | * Active                |    |
 |      | +--------------------------------------------------------+    |
 +------+---------------------------------------------------------------+
-\`\`\`
+```
 
 Every proportion is visible. Every element is labeled. You approve it, then Claude builds it.
 
 ## Installation
 
-Download \`ascii-wireframe.skill\` from the [Releases](../../releases) page and install it in Claude Desktop or Claude Code.
+Download `ascii-wireframe.skill` from the [Releases](../../releases) page and install it in Claude Desktop or Claude Code.
 
-Or copy \`SKILL.md\` into your skills directory.
+Or copy `SKILL.md` into your skills directory.
 
 ## Key Prompts
 
 **Step 1 — Generate wireframe:**
-\`\`\`
+```
 Before writing any code, generate a DETAILED ASCII wireframe of [your thing].
 
 REQUIREMENTS:
@@ -71,10 +71,10 @@ REQUIREMENTS:
 - Indicate spacing with whitespace or dashed lines (-----)
 
 OUTPUT: ASCII wireframe ONLY — no code, no explanations
-\`\`\`
+```
 
 **Step 2 — Iterate:**
-\`\`\`
+```
 Update the wireframe with these SPECIFIC changes only:
 
 CHANGE 1: Make the sidebar 20% instead of 15%
@@ -87,10 +87,10 @@ RULES:
 - Keep all labels in place
 
 OUTPUT: Full wireframe with changes applied
-\`\`\`
+```
 
 **Step 3 — Build:**
-\`\`\`
+```
 Build the dashboard using this wireframe as the EXACT specification.
 
 WIREFRAME:
@@ -112,7 +112,7 @@ OUTPUT:
 - Single-file JSX OR proper structure
 - Ready to run immediately
 - Include mock data exactly as shown
-\`\`\`
+```
 
 ## License
 
