@@ -28,7 +28,7 @@ This skill introduces a three-step process: **Sketch → Iterate → Build**.
 
 Ask Claude to build a SaaS dashboard. Instead of jumping to code, it produces:
 
-```
+\`\`\`
 +----------------------------------------------------------------------+
 | NAVBAR                    [Search]              [Bell] [Avatar]      |
 +------+---------------------------------------------------------------+
@@ -46,34 +46,73 @@ Ask Claude to build a SaaS dashboard. Instead of jumping to code, it produces:
 |      | | Alice   | Pro  | 2026-02-28 | * Active                |    |
 |      | +--------------------------------------------------------+    |
 +------+---------------------------------------------------------------+
-```
+\`\`\`
 
 Every proportion is visible. Every element is labeled. You approve it, then Claude builds it.
 
 ## Installation
 
-Download `ascii-wireframe.skill` from the [Releases](../../releases) page and install it in Claude Desktop or Claude Code.
+Download \`ascii-wireframe.skill\` from the [Releases](../../releases) page and install it in Claude Desktop or Claude Code.
 
-Or copy `SKILL.md` into your skills directory.
+Or copy \`SKILL.md\` into your skills directory.
 
 ## Key Prompts
 
 **Step 1 — Generate wireframe:**
-```
-Before writing any code, create an ASCII wireframe of [your thing].
-Use box-drawing characters and arrows for flow.
-Do not write any code. Output only the ASCII.
-```
+\`\`\`
+Before writing any code, generate a DETAILED ASCII wireframe of [your thing].
+
+REQUIREMENTS:
+- Use box-drawing characters for structure
+- Include EVERY major element and component
+- Show relative sizes and proportions (e.g., sidebar 20%, main 80%)
+- Add LABELS under each element
+- Use ARROWS to show relationships and flow
+- Indicate spacing with whitespace or dashed lines (-----)
+
+OUTPUT: ASCII wireframe ONLY — no code, no explanations
+\`\`\`
 
 **Step 2 — Iterate:**
-```
-Make the sidebar 20% instead of 15%. Add a search bar to the table. Redraw.
-```
+\`\`\`
+Update the wireframe with these SPECIFIC changes only:
+
+CHANGE 1: Make the sidebar 20% instead of 15%
+CHANGE 2: Add a search bar above the table
+
+RULES:
+- Apply ONLY these changes — everything else remains identical
+- Redraw the ENTIRE wireframe
+- Maintain all proportions for unchanged elements
+- Keep all labels in place
+
+OUTPUT: Full wireframe with changes applied
+\`\`\`
 
 **Step 3 — Build:**
-```
-Build this using React + Tailwind. Match the wireframe exactly.
-```
+\`\`\`
+Build the dashboard using this wireframe as the EXACT specification.
+
+WIREFRAME:
+[paste the approved wireframe]
+
+TECH STACK:
+React + Tailwind CSS
+
+CRITICAL RULES:
+1. MATCH LAYOUT EXACTLY — Every position, size, proportion
+2. DO NOT INVENT — No colors, buttons, or features not in wireframe
+3. PROPORTIONS MATTER — Sidebar 20%, main 80%, etc.
+4. TEXT FROM WIREFRAME — Use exact labels and annotations
+5. RESPONSIVE — Both desktop and mobile if shown
+6. NO PLACEHOLDER LIBRARIES — Use React + Tailwind CSS
+7. ASK IF AMBIGUOUS — Don't guess
+
+OUTPUT:
+- Single-file JSX OR proper structure
+- Ready to run immediately
+- Include mock data exactly as shown
+\`\`\`
 
 ## License
 
